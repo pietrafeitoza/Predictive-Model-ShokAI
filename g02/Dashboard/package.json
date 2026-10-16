@@ -1,0 +1,35 @@
+{
+  "name": "shokai-dashboard",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Development commands for the ShokAI web application",
+  "scripts": {
+    "predev": "npm --prefix packages/contracts run build && node scripts/sync-explainability-assets.mjs",
+    "prebuild": "node scripts/sync-explainability-assets.mjs",
+    "build": "npm --prefix packages/contracts run build && npm --prefix backend run build && npm --prefix frontend run build",
+    "check": "npm test && npm run typecheck && npm run build",
+    "dev": "node --env-file-if-exists=.env scripts/dev.mjs",
+    "migrate": "node --env-file-if-exists=.env scripts/migrate.mjs",
+    "migrate:dry-run": "node --env-file-if-exists=.env scripts/migrate.mjs --dry-run",
+    "supabase:start": "supabase start",
+    "supabase:stop": "supabase stop",
+    "test": "npm run test:metadata && npm run test:import && npm --prefix packages/contracts test && npm --prefix backend test && npm --prefix frontend test",
+    "test:metadata": "node scripts/run-python-metadata-tests.mjs",
+    "test:import": "node --test scripts/tests/*.test.mjs",
+    "import:predictions": "node --env-file-if-exists=.env scripts/import-selected-random-forest-predictions.mjs",
+    "import:models": "node --env-file-if-exists=.env scripts/import-model-catalog.mjs",
+    "import:datasets": "node --env-file-if-exists=.env scripts/import-dataset-catalog.mjs",
+    "test:db": "supabase test db",
+    "typecheck": "npm --prefix packages/contracts run typecheck && npm --prefix backend run typecheck && npm --prefix frontend run typecheck"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "devDependencies": {
+    "supabase": "^2.117.0"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.116.0",
+    "csv-parse": "^6.2.1"
+  }
+}

@@ -1,0 +1,28 @@
+# Runtime dependencies for the notebooks under notebooks/.
+pandas==3.0.5
+pyarrow==25.0.1
+numpy==2.5.2
+matplotlib==3.11.1
+scikit-learn==1.9.0
+scipy==1.18.1
+
+# Notebook 14 (optional): loads the partner-supplied file URL from .env and
+# downloads it from Google Drive.
+python-dotenv==1.2.4
+gdown==6.4.1
+
+# Interpretability of the Random Forest demand model (notebook 17). Needs
+# Python >= 3.12; see documents/extras/shap_environment_setup.md. The last three
+# are shap's own dependencies, pinned so the environment stays reproducible.
+shap==0.52.0
+numba==0.67.0
+llvmlite==0.49.0
+slicer==0.0.8
+
+# Jupyter kernel for the venv: needed to run the notebooks in VS Code and by
+# scripts/run_pipeline.py.
+ipykernel==7.3.0
+
+# Needed only to run scripts/run_pipeline.py (executes the notebooks end to
+# end from the command line instead of opening each one manually).
+papermill==2.7.0

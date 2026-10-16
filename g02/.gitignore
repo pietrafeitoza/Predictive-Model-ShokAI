@@ -1,0 +1,52 @@
+# WARNING! Do not change the list above, so no data source will be uploaded to your repository. 
+# This is a commitment established between Inteli and its project partners regarding data protection.
+# 
+*.csv
+*.xls
+*.xlsx
+*.tsv
+*.db
+*.sql
+*.parquet
+
+
+data/**/*
+!data/**/
+!data/**/.gitkeep
+*.parquet
+
+# virtual environments
+.venv/
+.env
+__pycache__/
+.ipynb_checkpoints/
+
+# executed copies produced by scripts/run_pipeline.py
+notebooks/runs/
+
+# Dashboard dependencies and generated files
+Dashboard/**/node_modules/
+Dashboard/**/dist/
+Dashboard/**/.vite/
+Dashboard/**/.env
+Dashboard/**/*.tsbuildinfo
+Dashboard/**/coverage/
+Dashboard/**/junit.xml
+
+# Supabase migrations and database tests are source code, not dataset exports.
+!Dashboard/supabase/migrations/*.sql
+!Dashboard/supabase/tests/*.sql
+
+# Root-level Node artifacts (do not ignore per-package package.json files)
+/node_modules/
+/package.json
+/package-lock.json
+
+# Agent tooling state
+.agents/
+.claude/
+skills-lock.json
+
+# OS metadata
+.DS_Store
+Thumbs.db

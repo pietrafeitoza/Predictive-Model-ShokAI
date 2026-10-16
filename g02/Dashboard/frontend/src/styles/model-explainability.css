@@ -1,0 +1,65 @@
+/* Models / explainability */
+.explain-page { display: grid; gap: 28px; min-width: 0; }
+.explain-overline { color: var(--ocean); font: 500 .6875rem 'IBM Plex Mono', monospace; letter-spacing: .12em; text-transform: uppercase; }
+.explain-preview-note { padding: 12px 16px; border: 1px solid var(--ocean-100); border-radius: 8px; color: var(--ocean-700); background: var(--ocean-50); font-size: .8125rem; }
+.explain-hero { display: grid; justify-items: start; gap: 10px; padding: 28px 32px; border-radius: 14px; color: #fff; background: var(--navy); }
+.explain-hero .explain-overline { color: #7cc6e9; }
+.explain-hero h2 { margin: 0; font: 700 clamp(1.5rem, 2.5vw, 2rem)/1.2 Manrope, sans-serif; letter-spacing: -.02em; }
+.explain-hero p { max-width: 72ch; margin: 0; color: #d4e2ee; line-height: 1.6; }
+.explain-method { margin-top: 5px; color: #9ec5df; font-size: .75rem; }
+.explain-at-a-glance { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.explain-at-a-glance > div { display: grid; align-content: start; gap: 6px; min-width: 0; padding: 18px 20px; border: 1px solid var(--grey-100); border-top: 3px solid var(--cyan); border-radius: 10px; background: var(--card); }
+.explain-at-a-glance strong { color: var(--foreground); font: 500 1.65rem 'IBM Plex Mono', monospace; line-height: 1.2; }
+.explain-at-a-glance p { margin: 0; color: var(--grey-600); font-size: .8125rem; line-height: 1.5; }
+.explain-section { display: grid; gap: 14px; min-width: 0; }
+.explain-section-head { display: grid; gap: 6px; padding-bottom: 13px; border-bottom: 1px solid var(--grey-100); }
+.explain-section-head h2 { margin: 0; color: var(--foreground); font: 700 1.375rem Manrope, sans-serif; letter-spacing: -.02em; }
+.explain-section-head p { max-width: 78ch; margin: 0; color: var(--grey-600); font-size: .8125rem; line-height: 1.55; }
+.explain-card { min-width: 0; margin: 0; padding: 20px; border: 1px solid var(--grey-100); border-radius: 14px; background: var(--card); box-shadow: 0 1px 2px rgb(5 46 92 / 5%); }
+.explain-card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+.explain-card-head h3 { margin: 0; color: var(--foreground); font: 600 1rem Manrope, sans-serif; }
+.explain-card-head span, .explain-card-head a { color: var(--grey-600); font: 400 .6875rem 'IBM Plex Mono', monospace; }
+.explain-card-head a { color: var(--ocean); white-space: nowrap; }
+.explain-figure img { display: block; width: 100%; height: auto; }
+.explain-figure figcaption { margin: 14px 0 0; padding-top: 12px; border-top: 1px solid var(--grey-100); color: var(--grey-600); font-size: .75rem; line-height: 1.55; }
+.explain-image-scroll { max-width: 100%; overflow-x: auto; }
+.explain-image-scroll:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.explain-wide-figure .explain-image-scroll > img, .explain-example-figure .explain-image-scroll > img { min-width: 640px; }
+.explain-details { padding: 13px 16px; border: 1px solid var(--grey-100); border-radius: 9px; background: var(--card); font-size: .8125rem; }
+.explain-details summary { color: var(--ocean); font-weight: 600; cursor: pointer; }
+.explain-feature-table-wrap { margin-top: 14px; overflow-x: auto; }
+.explain-feature-table-wrap table { width: 100%; border-collapse: collapse; text-align: left; }
+.explain-feature-table-wrap th, .explain-feature-table-wrap td { padding: 9px 12px; border-top: 1px solid var(--grey-100); }
+.explain-feature-table-wrap th { color: var(--foreground); font-weight: 600; }
+.explain-feature-table-wrap td { color: var(--grey-800); }
+.explain-feature-table-wrap th:first-child { font-family: 'IBM Plex Mono', monospace; font-size: .75rem; }
+.explain-trend-controls { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.explain-trend-controls button { padding: 8px 12px; border: 1px solid var(--grey-200); border-radius: 8px; color: var(--grey-800); background: var(--card); font-size: .75rem; cursor: pointer; }
+.explain-trend-controls button[aria-pressed='true'] { border-color: var(--ocean); color: var(--ocean); background: var(--ocean-50); font-weight: 600; }
+.explain-trend-controls button:hover { border-color: var(--ocean); }
+.explain-trend-window { position: relative; width: 100%; min-width: 620px; overflow: hidden; }
+.explain-trend-window .explain-trend-image { position: absolute; top: 0; min-width: 0; max-width: none; }
+.explain-example-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.explain-example-button { display: grid; gap: 6px; width: 100%; padding: 16px; border: 1px solid var(--grey-100); border-radius: 10px; color: var(--grey-800); background: var(--card); text-align: left; cursor: pointer; }
+.explain-example-button:hover { border-color: var(--ocean-400); }
+.explain-example-button.is-selected { border-color: var(--ocean); box-shadow: inset 0 3px 0 var(--ocean); background: var(--ocean-50); }
+.explain-example-button span { font-weight: 600; font-size: .8125rem; }
+.explain-example-button small { color: var(--grey-600); font-size: .6875rem; line-height: 1.5; }
+.explain-case-values { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-bottom: 18px; padding-bottom: 16px; border-bottom: 1px solid var(--grey-100); color: var(--grey-600); font-size: .75rem; }
+.explain-case-values strong { margin-left: 4px; color: var(--foreground); font: 500 .875rem 'IBM Plex Mono', monospace; }
+.explain-limits ul { display: grid; gap: 9px; margin: 0; padding: 18px 20px 18px 38px; border-left: 3px solid var(--cyan); border-radius: 0 10px 10px 0; color: var(--grey-800); background: var(--ocean-50); }
+.explain-limits li { padding-left: 3px; font-size: .8125rem; line-height: 1.55; }
+.explain-state { padding: 32px; border: 1px solid var(--grey-100); border-radius: 14px; color: var(--grey-600); background: var(--card); }
+.explain-state p { margin-top: 0; }
+.explain-state button { padding: 8px 14px; border: 0; border-radius: 8px; color: #fff; background: var(--navy); cursor: pointer; }
+
+@media (max-width: 1100px) {
+  .explain-example-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 700px) {
+  .explain-at-a-glance { grid-template-columns: minmax(0, 1fr); }
+  .explain-hero { padding: 22px; }
+  .explain-example-list { grid-template-columns: minmax(0, 1fr); }
+  .explain-card { padding: 16px; }
+  .explain-card-head { align-items: start; flex-direction: column; }
+}

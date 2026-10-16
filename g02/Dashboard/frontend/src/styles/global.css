@@ -1,0 +1,350 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Manrope:wght@600;700;800&display=swap');
+@import 'tailwindcss';
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+  font-synthesis: none;
+
+  /* ShokAI brand palette */
+  --navy: #052e5c;
+  --navy-dark: #041f3d;
+  --ocean: #0069b4;
+  --paper: #fbfcfd;
+  --grey-50: #f4f6f8;
+  --grey-100: #e7ebef;
+  --grey-200: #d3dae1;
+  --grey-400: #9aa7b4;
+  --grey-600: #5f6e7c;
+  --grey-800: #2b3a47;
+  --ink: #06182e;
+  --danger: #d64545;
+  --danger-surface: #ffede8;
+  --danger-border: #f4c5bb;
+  --focus: #dcedf9;
+  --cyan: #00a5df;
+  --leaf: #2fa84f;
+  --citrine: #efdd1f;
+  --indigo: #6b5bd2;
+  --tier-low: #5f6e7c;
+  --tier-medium: #efdd1f;
+  --tier-high: #2fa84f;
+
+  /* Derived shades */
+  --navy-950: #03162c;
+  --navy-900: #04203d;
+  --navy-700: #073a72;
+  --navy-600: #0a4a8c;
+  --ocean-700: #0059a0;
+  --ocean-500: #0a82d4;
+  --ocean-400: #35a7e0;
+  --ocean-100: #e6f1fa;
+  --ocean-50: #f1f8fc;
+  --leaf-100: #e8f6ec;
+  --citrine-100: #fdf6df;
+  --indigo-100: #efecff;
+  --cyan-700: #0079a8;
+  --leaf-700: #1b6c32;
+  --citrine-700: #765b02;
+  --indigo-700: #5142b2;
+
+  /* shadcn/ui tokens mapped to the ShokAI palette */
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: #ffffff;
+  --card-foreground: var(--ink);
+  --popover: #ffffff;
+  --popover-foreground: var(--ink);
+  --primary: var(--navy);
+  --primary-foreground: #ffffff;
+  --secondary: var(--grey-50);
+  --secondary-foreground: var(--navy);
+  --muted: var(--grey-50);
+  --muted-foreground: var(--grey-600);
+  --accent: #e6f1fa;
+  --accent-foreground: #0059a0;
+  --destructive: var(--danger);
+  --destructive-foreground: #ffffff;
+  --border: var(--grey-100);
+  --input: var(--grey-200);
+  --ring: var(--ocean);
+  --chart-1: var(--ocean);
+  --chart-2: var(--cyan);
+  --chart-3: var(--leaf);
+  --chart-4: var(--citrine);
+  --chart-5: var(--indigo);
+  --radius: 0.875rem;
+  --sidebar: var(--navy-dark);
+  --sidebar-foreground: #b9cbdd;
+  --sidebar-primary: #35c3f5;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: rgb(255 255 255 / 12%);
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: rgb(255 255 255 / 10%);
+  --sidebar-ring: #35c3f5;
+}
+
+.dark {
+  /* Brand palette retuned for dark surfaces (mirrors every token in @theme inline) */
+  --paper: #071422;
+  --ink: #e6eef7;
+
+  --grey-50: #101f2f;
+  --grey-100: rgb(255 255 255 / 10%);
+  --grey-200: rgb(255 255 255 / 16%);
+  --grey-400: #8ea3b8;
+  --grey-600: #a6b9cc;
+  --grey-800: #dce7f1;
+
+  --ocean: #35a7e0;
+  --ocean-700: #7cc4f0;
+  --ocean-500: #35a7e0;
+  --ocean-400: #5fbdf0;
+  --ocean-100: rgb(10 130 212 / 22%);
+  --ocean-50: rgb(10 130 212 / 14%);
+
+  --cyan: #35c3f5;
+  --cyan-700: #7cc4f0;
+  --leaf: #4cc46a;
+  --leaf-100: rgb(47 168 79 / 18%);
+  --leaf-700: #8fe0a3;
+  --citrine: #f2e04a;
+  --citrine-100: rgb(239 221 31 / 16%);
+  --citrine-700: #f2e04a;
+  --indigo: #8b7cf0;
+  --indigo-100: rgb(107 91 210 / 24%);
+  --indigo-700: #b3a8ff;
+
+  --danger: #f08a8a;
+  --danger-surface: rgb(214 69 69 / 16%);
+  --danger-border: rgb(240 138 138 / 35%);
+
+  --tier-low: #9fb3c6;
+  --tier-medium: #f2e04a;
+  --tier-high: #4cc46a;
+
+  --navy-950: #04101d;
+  --navy-900: #06213a;
+  --navy-700: #0a4a8c;
+  --navy-600: #0d5aa8;
+
+  /* shadcn/ui tokens mapped to the dark ShokAI palette */
+  --background: #071422;
+  --foreground: #e6eef7;
+  --card: #0d2033;
+  --card-foreground: #e6eef7;
+  --popover: #0e2337;
+  --popover-foreground: #e6eef7;
+  --primary: #35a7e0;
+  --primary-foreground: #041f3d;
+  --secondary: #13293d;
+  --secondary-foreground: #cfe0ee;
+  --muted: #13293d;
+  --muted-foreground: #9fb3c6;
+  --accent: #123049;
+  --accent-foreground: #7cc4f0;
+  --destructive: #f08a8a;
+  --destructive-foreground: #2a0d0d;
+  --border: rgb(255 255 255 / 12%);
+  --input: rgb(255 255 255 / 16%);
+  --ring: #35c3f5;
+
+  color-scheme: dark;
+}
+
+.dark .text-navy,
+.dark .text-ink {
+  color: var(--foreground);
+}
+
+.dark .bg-white {
+  background-color: var(--card);
+}
+
+.dark .bg-white\/70 {
+  background-color: color-mix(in oklab, var(--card) 86%, transparent);
+}
+
+.dark .bg-white\/75 {
+  background-color: color-mix(in oklab, var(--card) 82%, transparent);
+}
+
+.dark .bg-white\/90 {
+  background-color: color-mix(in oklab, var(--card) 94%, transparent);
+}
+
+.dark #dashboard-main {
+  background: radial-gradient(1100px 520px at 100% -8%, rgb(10 130 212 / 18%), transparent);
+}
+
+@theme inline {
+  --font-sans: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-heading: 'Manrope', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --color-navy: var(--navy);
+  --color-navy-dark: var(--navy-dark);
+  --color-ocean: var(--ocean);
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-grey-50: var(--grey-50);
+  --color-grey-100: var(--grey-100);
+  --color-grey-200: var(--grey-200);
+  --color-grey-400: var(--grey-400);
+  --color-grey-600: var(--grey-600);
+  --color-grey-800: var(--grey-800);
+  --color-cyan-brand: var(--cyan);
+  --color-leaf: var(--leaf);
+  --color-danger: var(--danger);
+  --color-danger-surface: var(--danger-surface);
+  --color-danger-border: var(--danger-border);
+  --color-citrine: var(--citrine);
+  --color-indigo-brand: var(--indigo);
+  --color-navy-950: var(--navy-950);
+  --color-navy-900: var(--navy-900);
+  --color-navy-700: var(--navy-700);
+  --color-navy-600: var(--navy-600);
+  --color-ocean-700: var(--ocean-700);
+  --color-ocean-500: var(--ocean-500);
+  --color-ocean-400: var(--ocean-400);
+  --color-ocean-100: var(--ocean-100);
+  --color-ocean-50: var(--ocean-50);
+  --color-leaf-100: var(--leaf-100);
+  --color-citrine-100: var(--citrine-100);
+  --color-indigo-100: var(--indigo-100);
+  --color-cyan-700: var(--cyan-700);
+  --color-leaf-700: var(--leaf-700);
+  --color-citrine-700: var(--citrine-700);
+  --color-indigo-700: var(--indigo-700);
+  --color-tier-low: var(--tier-low);
+  --color-tier-medium: var(--tier-medium);
+  --color-tier-high: var(--tier-high);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    margin: 0;
+    transition:
+      background-color 0.35s ease,
+      color 0.35s ease;
+  }
+  html,
+  body,
+  #root {
+    min-width: 320px;
+    min-height: 100%;
+  }
+  html {
+    @apply font-sans;
+    scroll-behavior: smooth;
+  }
+  button,
+  input,
+  select {
+    font: inherit;
+  }
+}
+
+@keyframes shokai-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shokai-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes shokai-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .animate-fade-up {
+    animation: shokai-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  }
+
+  .animate-fade-in {
+    animation: shokai-fade-in 0.4s ease backwards;
+  }
+
+  .animate-scale-in {
+    animation: shokai-scale-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

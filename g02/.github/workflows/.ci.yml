@@ -1,0 +1,172 @@
+name: CI Pipeline
+
+on:
+  pull_request:
+    branches: [ "main" ]
+  push:
+    branches: [ "main" ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # 1. VERIFY CONTRACTS
+  # ---------------------------------------------------------------------------
+  verify-contracts:
+    runs-on: ubuntu-latest
+    container:
+      image: node:24
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Cache do npm
+        uses: actions/cache@v4
+        with:
+          path: Dashboard/packages/contracts/node_modules/
+          key: ${{ runner.os }}-node24-contracts-${{ hashFiles('Dashboard/packages/contracts/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node24-contracts-
+
+      - name: Executar testes e build dos contratos
+        run: |
+          npm --prefix Dashboard/packages/contracts ci
+          npm --prefix Dashboard/packages/contracts run build
+          npm --prefix Dashboard/packages/contracts test -- --coverage --reporter=default --reporter=junit --outputFile.junit=junit.xml
+          npm --prefix Dashboard/packages/contracts audit --omit=dev --audit-level=high || true
+
+      - name: Upload dos artefatos
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: contracts-dist
+          path: Dashboard/packages/contracts/dist/
+          retention-days: 7
+
+      - name: Relatório de testes JUnit
+        if: always()
+        uses: dorny/test-reporter@v1
+        with:
+          name: Contracts Test Report
+          path: Dashboard/packages/contracts/junit.xml
+          reporter: java-junit
+
+  # ---------------------------------------------------------------------------
+  # 2. VERIFY FRONTEND
+  # ---------------------------------------------------------------------------
+  verify-frontend:
+    runs-on: ubuntu-latest
+    container:
+      image: node:24
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Cache do npm
+        uses: actions/cache@v4
+        with:
+          path: |
+            Dashboard/packages/contracts/node_modules/
+            Dashboard/frontend/node_modules/
+          key: ${{ runner.os }}-node24-frontend-${{ hashFiles('Dashboard/frontend/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node24-frontend-
+
+      - name: Executar testes e build do frontend
+        run: |
+          npm --prefix Dashboard/packages/contracts ci
+          npm --prefix Dashboard/packages/contracts run build
+          npm --prefix Dashboard/frontend ci
+          npm --prefix Dashboard/frontend run build
+          npm --prefix Dashboard/frontend test -- --coverage --reporter=default --reporter=junit --outputFile.junit=junit.xml
+          npm --prefix Dashboard/frontend audit --omit=dev --audit-level=high || true
+
+      - name: Upload dos artefatos
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-dist
+          path: Dashboard/frontend/dist/
+          retention-days: 7
+
+      - name: Relatório de testes JUnit
+        if: always()
+        uses: dorny/test-reporter@v1
+        with:
+          name: Frontend Test Report
+          path: Dashboard/frontend/junit.xml
+          reporter: java-junit
+
+  # ---------------------------------------------------------------------------
+  # 3. VERIFY BACKEND
+  # ---------------------------------------------------------------------------
+  verify-backend:
+    runs-on: ubuntu-latest
+    container:
+      image: node:24
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Cache do npm
+        uses: actions/cache@v4
+        with:
+          path: |
+            Dashboard/packages/contracts/node_modules/
+            Dashboard/backend/node_modules/
+          key: ${{ runner.os }}-node24-backend-${{ hashFiles('Dashboard/backend/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node24-backend-
+
+      - name: Executar testes e build do backend
+        run: |
+          npm --prefix Dashboard/packages/contracts ci
+          npm --prefix Dashboard/packages/contracts run build
+          npm --prefix Dashboard/backend ci
+          npm --prefix Dashboard/backend run build
+          npm --prefix Dashboard/backend test -- --coverage --reporter=default --reporter=junit --outputFile.junit=junit.xml
+          npm --prefix Dashboard/backend audit --omit=dev --audit-level=high || true
+
+      - name: Upload dos artefatos
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-dist
+          path: Dashboard/backend/dist/
+          retention-days: 7
+
+      - name: Relatório de testes JUnit
+        if: always()
+        uses: dorny/test-reporter@v1
+        with:
+          name: Backend Test Report
+          path: Dashboard/backend/junit.xml
+          reporter: java-junit
+
+  # ---------------------------------------------------------------------------
+  # 4. SECURITY (Equivalente ao SAST + Secret-Detection apenas na branch principal)
+  # ---------------------------------------------------------------------------
+  security-scans:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: CodeQL Analysis (SAST)
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+
+      - name: Secret Detection (Trufflehog)
+        uses: trufflesecurity/trufflehog-actions-scan@v3
+        with:
+          base: ${{ github.event.before }}
+          head: ${{ github.sha }}

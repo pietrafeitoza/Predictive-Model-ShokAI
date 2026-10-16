@@ -1,0 +1,97 @@
+import { ModelExplainabilitySchema, type ModelExplainability } from '@shokai/contracts';
+
+// A dashboard copy of the existing Random Forest SHAP analysis. Figures are copied
+// from the published project assets; no explanation is calculated at request time.
+export const randomForestExplainability: ModelExplainability = ModelExplainabilitySchema.parse({
+  modelId: 'north-region-mama-demand-random-forest',
+  modelVersion: 'forest-v1',
+  method: 'SHAP TreeExplainer',
+  targetUnit: 'billed items per month',
+  sampleSize: 1000,
+  holdoutSize: 3810,
+  expectedValue: 61.611,
+  globalFigures: [
+    {
+      kind: 'bar',
+      title: 'Overall feature impact',
+      imagePath: '/assets/model-explainability/demand-rf-shap-bar.png',
+      alt: 'Bar chart ranking eight predictors by mean absolute SHAP value.',
+      caption: 'Mean absolute contribution across 1,000 sampled holdout rows. Longer bars mean larger typical influence on the forest forecast.',
+    },
+    {
+      kind: 'beeswarm',
+      title: 'Direction and spread',
+      imagePath: '/assets/model-explainability/demand-rf-shap-beeswarm.png',
+      alt: 'SHAP beeswarm plot showing the contribution of each predictor across sampled holdout rows.',
+      caption: 'Each dot is one row. Horizontal position shows how far a feature moves the forecast from the reference value; colour shows its feature value.',
+    },
+    {
+      kind: 'dependence',
+      title: 'How leading features act',
+      panelAspectRatio: 886 / 713,
+      panels: [
+        { label: 'Recent 3-month demand' },
+        { label: 'Recent 6-month demand' },
+        { label: 'Forecast month' },
+      ],
+      imagePath: '/assets/model-explainability/demand-rf-shap-dependence.png',
+      alt: 'SHAP dependence plots for three-month mean demand, six-month mean demand, and month.',
+      caption: 'Recent demand means have the largest effect. The month effect reflects this training window and should not be read as established seasonality.',
+    },
+  ],
+  features: [
+    { name: 'DEMAND_MEAN_3M', meanAbsoluteShap: 46.70, sharePercent: 54.7 },
+    { name: 'DEMAND_MEAN_6M', meanAbsoluteShap: 19.69, sharePercent: 23.1 },
+    { name: 'MONTH', meanAbsoluteShap: 9.50, sharePercent: 11.1 },
+    { name: 'DEMAND_LAG_1M', meanAbsoluteShap: 2.59, sharePercent: 3.0 },
+    { name: 'DEMAND_LAG_6M', meanAbsoluteShap: 2.56, sharePercent: 3.0 },
+    { name: 'DEMAND_LAG_3M', meanAbsoluteShap: 2.51, sharePercent: 2.9 },
+    { name: 'DEMAND_STD_3M', meanAbsoluteShap: 1.40, sharePercent: 1.6 },
+    { name: 'PORTE_ORDINAL', meanAbsoluteShap: 0.39, sharePercent: 0.5 },
+  ],
+  localExamples: [
+    {
+      title: 'Typical observed row',
+      context: 'Operator 1169857 · adjuvant · PA · November 2025',
+      observed: 5,
+      predicted: 4.3,
+      imagePath: '/assets/model-explainability/demand-rf-shap-waterfall-typical.png',
+      alt: 'SHAP waterfall for a typical observed row, ending at a forecast of 4.3 billed items.',
+      caption: 'Low recent demand brings the forecast down from the 61.6-item reference value.',
+    },
+    {
+      title: 'Largest holdout error',
+      context: 'Operator 147828 · advanced · AM · October 2025',
+      observed: 0,
+      predicted: 2921.2,
+      imagePath: '/assets/model-explainability/demand-rf-shap-waterfall-largest-error.png',
+      alt: 'SHAP waterfall for the largest holdout error, ending at a forecast of 2,921.2 billed items.',
+      caption: 'High historical volume drives a large forecast despite no billed items in the observed month.',
+    },
+    {
+      title: 'Sudden demand onset',
+      context: 'Operator 1169698 · advanced · AM · November 2025',
+      observed: 1111,
+      predicted: 0.2,
+      imagePath: '/assets/model-explainability/demand-rf-shap-waterfall-missed-onset.png',
+      alt: 'SHAP waterfall for a sudden demand onset, ending at a forecast of 0.2 billed items.',
+      caption: 'An all-zero history cannot signal the sudden rise in observed billed volume.',
+    },
+    {
+      title: 'Missing recent history',
+      context: 'Operator 234693 · neoadjuvant · AM · December 2025',
+      observed: 15,
+      predicted: 4.4,
+      imagePath: '/assets/model-explainability/demand-rf-shap-waterfall-missing-history.png',
+      alt: 'SHAP waterfall for a row with missing history, ending at a forecast of 4.4 billed items.',
+      caption: 'Missing rolling history follows the forest’s learned missing-value paths and lowers this forecast.',
+    },
+  ],
+  limitations: [
+    'These results explain the forest’s predictions, not causes of real-world demand.',
+    'The target and SHAP contributions are billed item quantities per month, not patient counts or clinical recommendations.',
+    'The global plots cover a fixed 1,000-row sample from one 3,810-row holdout; the local plots are selected historical examples.',
+    'Correlated demand-history features share attribution, so individual shares should be read together.',
+    'A different model version requires its own explanation; these figures do not explain arbitrary dashboard predictions.',
+  ],
+});
