@@ -3,7 +3,7 @@
 
 ShokAI is a web-based predictive analytics platform designed to estimate demand for specialized breast cancer care in Brazil's private health insurance market. By processing open data from the National Supplementary Health Agency (ANS) across the North Region, it provides Market Access teams with actionable forecasts and interactive dashboards to prioritize strategic opportunities.
 
-https://www.youtube.com/watch?v=nrXpLBOKDlo
+https://youtu.be/Zcmj_CLbibA
 
 ## Features
 
